@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @EnableAutoConfiguration
-public class SpringBootTest {
+public class SpringBootAppletServer {
 
 	@RequestMapping("/")
 	public String home() {

@@ -56,7 +56,7 @@ public class App {
 		// ------------------------------
 		// Spring boot
 
-		ConfigurableApplicationContext cac = SpringApplication.run(SpringBootTest.class, args);
+		ConfigurableApplicationContext cac = SpringApplication.run(SpringBootAppletServer.class, args);
 		System.out.println(cac.getDisplayName() + " .isRunning(): " + cac.isRunning());
 
 		try {

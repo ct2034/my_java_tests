@@ -79,6 +79,10 @@ public class App {
 		//cac.stop(); // (inherited from org.springframework.context.Lifecycle)
 		//cac.close(); // actually closes the spring boot bean
 		
-		System.out.println(cac.getDisplayName() + " .isRunning(): " + cac.isRunning());
+		if(cac.isRunning()){
+			System.out.println(cac.getDisplayName() + " .isRunning(): " + cac.isRunning() + "\n== NEW BEAN ==");
+			@SuppressWarnings("unused")
+			ConfigurableApplicationContext cac2 = SpringApplication.run(SpringBootAppletClient.class, args);
+		}
 	}
 }

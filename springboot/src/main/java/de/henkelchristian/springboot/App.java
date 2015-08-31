@@ -4,11 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
+import org.apache.catalina.core.ApplicationContext;
+
 //import java.util.concurrent.ExecutionException;
 //import java.util.concurrent.Future;
 
 import org.junit.Test;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.netflix.hystrix.*;
@@ -55,34 +58,6 @@ public class App {
 
 		// ------------------------------
 		// Spring boot
-
-		ConfigurableApplicationContext cac = SpringApplication.run(SpringBootAppletServer.class, args);
-		System.out.println(cac.getDisplayName() + " .isRunning(): " + cac.isRunning());
-
-		try {
-		    Thread.sleep(1000);               
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
-		}
-		
-		System.out.println(cac.getDisplayName() + " .isRunning(): " + cac.isRunning());
-		
-		// Some info (from tutorial: https://spring.io/guides/gs/spring-boot/)
-		System.out.println("Let's inspect the beans provided by Spring Boot:");
-
-        String[] beanNames = cac.getBeanDefinitionNames();
-        Arrays.sort(beanNames);
-        for (String beanName : beanNames) {
-            System.out.println(beanName);
-        }
-		
-		//cac.stop(); // (inherited from org.springframework.context.Lifecycle)
-		//cac.close(); // actually closes the spring boot bean
-		
-		if(cac.isRunning()){
-			System.out.println(cac.getDisplayName() + " .isRunning(): " + cac.isRunning() + "\n== NEW BEAN ==");
-			@SuppressWarnings("unused")
-			ConfigurableApplicationContext cac2 = SpringApplication.run(SpringBootAppletClient.class, args);
-		}
+		ConfigurableApplicationContext cac2 = SpringApplication.run(SpringBootAppletClient.class, args);
 	}
 }

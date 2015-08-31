@@ -1,4 +1,4 @@
-package de.henkelchristian.springboot;
+package de.henkelchristian.springboot2;
 
 import java.util.Hashtable;
 

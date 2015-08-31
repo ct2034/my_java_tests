@@ -16,21 +16,14 @@ import org.springframework.web.bind.annotation.*;
 public class SpringBootAppletClient {
 
 	@RequestMapping("/")
-	public String home() {
-		System.out.println("home() called ..");
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException ex) {
-			Thread.currentThread().interrupt();
-		}
-		System.out.println("waited ..");
+	public String meta() {
+		System.out.println("meta() called ..");
 
 		String gotData = "";
-		String[] toGet = { "/", "/json", "/funciton/8" };
-		//gotData = this.getData(8080, toGet);
+		String[] toGet = { "/", "/json", "/function/8" };
+		gotData = this.getData(82, toGet);
 
-		return "<!DOCTYPE html><html><body><h1>Test</h1><p>" + gotData + "</p></body></html>";
+		return "<!DOCTYPE html><html><body><h1>Meta call</h1><p>" + gotData + "</p></body></html>";
 	}
 
 	private String getData(int _serverPort, String[] toGet) {

@@ -7,6 +7,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
@@ -21,81 +26,32 @@ public class SpringBootAppletClient {
 
 		String gotData = "";
 		String[] toGet = { "/", "/json", "/function/8" };
-		gotData = this.getData(82, toGet);
+		gotData = this.getData(82, Arrays.asList(toGet));
 
 		return "<!DOCTYPE html><html><body><h1>Meta call</h1><p>" + gotData + "</p></body></html>";
 	}
 
-	private String getData(int _serverPort, String[] toGet) {
+	@RequestMapping("/power")
+	public String power() {
+		System.out.println("power() called ..");
+
+		String gotData = "";
+		List<String> toGet = new ArrayList<String>();
+		int max = 100;
+		for(int i = 0; i<max; i+=1){
+			GetPowerCommand gpc = new GetPowerCommand(i, 82);
+			gotData+=gpc.run();
+		}
+		
+		return "<!DOCTYPE html><html><body><h1>Power</h1><p>" + gotData + "</p></body></html>";
+	}
+
+	private String getData(int _serverPort, List<String> toGet) {
 		String out = "";
 
 		for (String s : toGet) {
-			String url = "http://localhost:" + _serverPort + s;
-
-			URL obj;
-			try {
-				obj = new URL(url);
-			} catch (MalformedURLException e2) {
-				e2.printStackTrace();
-				return "";
-			}
-			HttpURLConnection con;
-			try {
-				con = (HttpURLConnection) obj.openConnection();
-			} catch (IOException e2) {
-				e2.printStackTrace();
-				return "";
-			}
-
-			try {
-				con.setRequestMethod("GET");
-			} catch (ProtocolException e1) {
-				e1.printStackTrace();
-				return "";
-			}
-
-			int responseCode = 0;
-			try {
-				responseCode = con.getResponseCode();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-				return "";
-			}
-
-			System.out.println("\nSending 'GET' request to URL : " + url);
-			System.out.println("Response Code : " + responseCode);
-
-			BufferedReader in;
-			try {
-				in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-			} catch (IOException e) {
-				e.printStackTrace();
-				return "";
-			}
-			String inputLine;
-			StringBuffer response = new StringBuffer();
-
-			try {
-				while ((inputLine = in.readLine()) != null)
-
-				{
-					response.append(inputLine);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-				return "";
-			}
-
-			try {
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-				return "";
-			}
-
-			// print result
-			System.out.println(response.toString());
-			out += response.toString() + "\n";
+			GetPowerCommand gpc = new GetPowerCommand(5, 82);
+			System.out.println("GetPowerCommand.run(5, 82): " + gpc.run());
 		}
 
 		return out;

@@ -20,12 +20,8 @@ import com.netflix.hystrix.HystrixCommandMetrics.HealthCounts;
 //import rx.Observable;
 
 public class App {
-	@Test
-	public void testSynchronous() {
-		assertEquals("Hello World!", new CommandHelloWorld("World").execute());
-		assertEquals("Hello Bob!", new CommandHelloWorld("Bob").execute());
-	}
-
+	private static HystrixCommandMetrics powerMetrics;
+	
 	private static String getStatsStringFromMetrics(HystrixCommandMetrics metrics) {
 		StringBuilder m = new StringBuilder();
 		if (metrics != null) {
@@ -33,7 +29,8 @@ public class App {
 			m.append("Requests: ").append(health.getTotalRequests()).append(" ");
 			m.append("Errors: ").append(health.getErrorCount()).append(" (").append(health.getErrorPercentage())
 					.append("%)   ");
-			m.append("Mean: ").append(metrics.getExecutionTimePercentile(50)).append(" ");
+			m.append("Mean: ").append(metrics.getTotalTimeMean()).append(" ");
+			m.append("50th: ").append(metrics.getExecutionTimePercentile(50)).append(" ");
 			m.append("75th: ").append(metrics.getExecutionTimePercentile(75)).append(" ");
 			m.append("90th: ").append(metrics.getExecutionTimePercentile(90)).append(" ");
 			m.append("99th: ").append(metrics.getExecutionTimePercentile(99)).append(" ");
@@ -43,21 +40,31 @@ public class App {
 
 	public static void main(String[] args) {
 		System.out.println("init ...");
-
-		CommandHelloWorld c = new CommandHelloWorld("Bob");
-		CommandHelloWorld cj = new CommandHelloWorld("Joe");
-		CommandHelloWorld cb = new CommandHelloWorld("Bill");
-
-		HystrixCommandMetrics someMetrics = HystrixCommandMetrics
-				.getInstance(HystrixCommandKey.Factory.asKey(CommandHelloWorld.class.getSimpleName()));
-		System.out.println("getStatsStringFromMetrics(someMetrics): " + getStatsStringFromMetrics(someMetrics));
-
-		System.out.println("String: " + c.execute() + ", " + cj.execute() + ", " + cb.execute() + "!");
-
-		System.out.println("getStatsStringFromMetrics(someMetrics): " + getStatsStringFromMetrics(someMetrics));
-
+		
+		GetPowerCommand gpc = new GetPowerCommand(5, 82);
+		System.out.println("GetPowerCommand.run(5, 82): " + gpc.run());
+		
+		System.out.println("HystrixCommandMetrics.getInstances():" + HystrixCommandMetrics.getInstances());
+		
+				
+				
 		// ------------------------------
 		// Spring boot
 		ConfigurableApplicationContext cac2 = SpringApplication.run(SpringBootAppletClient.class, args);
+		
+		
+		// Hystrix
+		boolean run = true;
+		while(run){
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				run = false;
+			}
+			System.out.println("getStatsStringFromMetrics(someMetrics): " + getStatsStringFromMetrics(powerMetrics));
+		}
+
 	}
 }

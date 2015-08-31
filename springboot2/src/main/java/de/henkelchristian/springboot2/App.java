@@ -9,11 +9,5 @@ public class App {
 		System.out.println("init ...");
 		SpringApplication app = new SpringApplication(SpringBootAppletServer.class);
 		app.run();
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException ex) {
-			Thread.currentThread().interrupt();
-		}
 	}
 }

@@ -14,19 +14,19 @@ import com.netflix.hystrix.*;
 
 public class GetPowerCommand extends HystrixCommand<String> {
 
-    private final int in;
-    private final int port;
+	private final int in;
+	private final int port;
 
-    public GetPowerCommand(int in, int port) {
-        super(HystrixCommandGroupKey.Factory.asKey("Server Command"));
-        this.in = in;
-        this.port = port;
-    }
+	public GetPowerCommand(int in, int port) {
+		super(HystrixCommandGroupKey.Factory.asKey("Server Command"));
+		this.in = in;
+		this.port = port;
+	}
 
-    @Override
-    protected String run() {
-    	String url = "http://localhost:" + this.port + "/function/" + this.in;
-    	String out = "";
+	@Override
+	protected String run() throws IOException {
+		String url = "http://localhost:" + this.port + "/function/" + this.in;
+		String out = "";
 
 		URL obj;
 		try {
@@ -36,12 +36,7 @@ public class GetPowerCommand extends HystrixCommand<String> {
 			return "";
 		}
 		HttpURLConnection con;
-		try {
-			con = (HttpURLConnection) obj.openConnection();
-		} catch (IOException e2) {
-			e2.printStackTrace();
-			return "";
-		}
+		con = (HttpURLConnection) obj.openConnection();
 
 		try {
 			con.setRequestMethod("GET");
@@ -51,55 +46,34 @@ public class GetPowerCommand extends HystrixCommand<String> {
 		}
 
 		int responseCode = 0;
-		try {
-			responseCode = con.getResponseCode();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			return "";
-		}
 
-		//System.out.println("\nSending 'GET' request to URL : " + url);
-		//System.out.println("Response Code : " + responseCode);
+		responseCode = con.getResponseCode();
 
-		BufferedReader in;
-		try {
-			in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "";
-		}
+		// System.out.println("\nSending 'GET' request to URL : " + url);
+		// System.out.println("Response Code : " + responseCode);
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
 		String inputLine;
 		StringBuffer response = new StringBuffer();
 
-		try {
-			while ((inputLine = in.readLine()) != null)
-
-			{
-				response.append(inputLine);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "";
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
 		}
-
-		try {
-			in.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "";
-		}
+		
+		in.close();
 
 		// print result
-		//System.out.println(response.toString());
-		
+		// System.out.println(response.toString());
+
 		// get only paragraph
 		Pattern p = Pattern.compile("<p>.*</p>");
 		Matcher m = p.matcher(response.toString());
-		
-		while(m.find()) {
+
+		while (m.find()) {
 			out += response.toString().substring(m.start(), m.end());
 		}
-		
+
 		return out;
-    }
+	}
 }

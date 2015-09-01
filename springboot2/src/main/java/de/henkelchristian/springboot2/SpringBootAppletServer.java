@@ -28,7 +28,7 @@ public class SpringBootAppletServer {
 	@RequestMapping(value = "/function/{in}", method = RequestMethod.GET)
 	public String function(@PathVariable int in) {
 		try {
-			Thread.sleep(10 * in);
+			Thread.sleep(in);
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
 		}

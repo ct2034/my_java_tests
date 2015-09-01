@@ -36,7 +36,7 @@ public class App {
 		System.out.println("init ...");
 
 		GetPowerCommand gpc = new GetPowerCommand(5, 82);
-		System.out.println("GetPowerCommand.run(5, 82): " + gpc.run());
+		System.out.println("GetPowerCommand.run(5, 82): " + gpc.execute());
 		
 		powerMetrics = gpc.getMetrics();
 
@@ -60,8 +60,8 @@ public class App {
 				e.printStackTrace();
 				run = false;
 			}
-			System.out.println("GetPowerCommand.run(5, 82): " + gpc.run());
-			System.out.println("GetPowerCommand.run(50, 82): " + gpc.run());
+			System.out.println("GetPowerCommand.run(5, 82): " + gpc.execute());
+			System.out.println("GetPowerCommand.run(50, 82): " + gpc.execute());
 			System.out.println("getStatsStringFromMetrics(powerMetrics): " + getStatsStringFromMetrics(powerMetrics));
 		}
 

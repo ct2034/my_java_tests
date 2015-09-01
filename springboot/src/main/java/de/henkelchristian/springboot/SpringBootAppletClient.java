@@ -51,7 +51,7 @@ public class SpringBootAppletClient {
 
 		for (String s : toGet) {
 			GetPowerCommand gpc = new GetPowerCommand(5, 82);
-			System.out.println("GetPowerCommand.run(5, 82): " + gpc.run());
+			System.out.println("GetPowerCommand.run(5, 82): " + gpc.execute());
 		}
 
 		return out;

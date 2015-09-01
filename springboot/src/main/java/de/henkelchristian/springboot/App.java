@@ -50,7 +50,7 @@ public class App {
 					e.printStackTrace();
 					run = false;
 				}
-				randPosInt = Math.abs(rand.nextInt()) % 10;
+				randPosInt = rand.nextInt() % 10;
 				new GetPowerCommand(randPosInt, 82).execute();
 			}
 			System.out.println("new GetPowerCommand(rand, 82).execute(): " + new GetPowerCommand(randPosInt, 82).execute());

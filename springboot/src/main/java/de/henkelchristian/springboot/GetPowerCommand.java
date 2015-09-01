@@ -76,4 +76,10 @@ public class GetPowerCommand extends HystrixCommand<String> {
 
 		return out;
 	}
+	
+
+    @Override
+    protected String getFallback() {
+        return "A fallback occured!";
+    }
 }

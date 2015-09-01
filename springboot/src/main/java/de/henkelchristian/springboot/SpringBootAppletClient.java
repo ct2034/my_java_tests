@@ -40,7 +40,7 @@ public class SpringBootAppletClient {
 		int max = 100;
 		for(int i = 0; i<max; i+=1){
 			GetPowerCommand gpc = new GetPowerCommand(i, 82);
-			gotData+=gpc.run();
+			gotData+=gpc.execute();
 		}
 		
 		return "<!DOCTYPE html><html><body><h1>Power</h1><p>" + gotData + "</p></body></html>";

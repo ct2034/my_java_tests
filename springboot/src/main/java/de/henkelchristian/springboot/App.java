@@ -1,17 +1,11 @@
 package de.henkelchristian.springboot;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-
-import org.apache.catalina.core.ApplicationContext;
+import java.util.Collection;
 
 //import java.util.concurrent.ExecutionException;
 //import java.util.concurrent.Future;
 
-import org.junit.Test;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.context.embedded.EmbeddedWebApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import com.netflix.hystrix.*;
@@ -21,7 +15,7 @@ import com.netflix.hystrix.HystrixCommandMetrics.HealthCounts;
 
 public class App {
 	private static HystrixCommandMetrics powerMetrics;
-	
+
 	private static String getStatsStringFromMetrics(HystrixCommandMetrics metrics) {
 		StringBuilder m = new StringBuilder();
 		if (metrics != null) {
@@ -40,30 +34,35 @@ public class App {
 
 	public static void main(String[] args) {
 		System.out.println("init ...");
-		
+
 		GetPowerCommand gpc = new GetPowerCommand(5, 82);
 		System.out.println("GetPowerCommand.run(5, 82): " + gpc.run());
 		
-		System.out.println("HystrixCommandMetrics.getInstances():" + HystrixCommandMetrics.getInstances());
-		
-				
-				
+		powerMetrics = gpc.getMetrics();
+
+		Collection<HystrixCommandMetrics> chcm = HystrixCommandMetrics.getInstances();
+		for (HystrixCommandMetrics hcm : chcm) {
+			System.out.println("hcm.getProperties().toString(): " + hcm.getProperties().toString());
+			System.out.println("hcm.getProperties().metricsRollingStatisticalWindowInMilliseconds(): "
+					+ hcm.getProperties().metricsRollingStatisticalWindowInMilliseconds().get());
+		}
+
 		// ------------------------------
 		// Spring boot
 		ConfigurableApplicationContext cac2 = SpringApplication.run(SpringBootAppletClient.class, args);
-		
-		
+
 		// Hystrix
 		boolean run = true;
-		while(run){
+		while (run) {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				run = false;
 			}
-			System.out.println("getStatsStringFromMetrics(someMetrics): " + getStatsStringFromMetrics(powerMetrics));
+			System.out.println("GetPowerCommand.run(5, 82): " + gpc.run());
+			System.out.println("GetPowerCommand.run(50, 82): " + gpc.run());
+			System.out.println("getStatsStringFromMetrics(powerMetrics): " + getStatsStringFromMetrics(powerMetrics));
 		}
 
 	}

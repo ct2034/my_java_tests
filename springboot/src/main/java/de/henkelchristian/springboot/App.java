@@ -1,6 +1,5 @@
 package de.henkelchristian.springboot;
 
-import java.util.Collection;
 import java.util.Random;
 
 import org.springframework.boot.SpringApplication;
@@ -34,6 +33,7 @@ public class App {
 		// ------------------------------
 		// Spring boot
 		ConfigurableApplicationContext cac2 = SpringApplication.run(SpringBootAppletClient.class, args);
+		System.out.println("cac2.isRunning(): " + cac2.isRunning());
 
 		// Hystrix + Metrics
 		System.out.println("new GetPowerCommand(5, 82).execute(): " + new GetPowerCommand(5, 82).execute());

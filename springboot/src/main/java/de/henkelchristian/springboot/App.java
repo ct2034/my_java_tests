@@ -18,14 +18,15 @@ public class App {
 		Random rand = new Random(2);
 		while (run) {
 			int randPosInt = 0;
-			for (int i = 0; i<10; i++) {
+			for (int i = 0; i<100; i++) {
 				try {
-					Thread.sleep(100);
+					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 					run = false;
 				}
-				randPosInt = rand.nextInt() % 10;
+				randPosInt = Math.abs(rand.nextInt() % 50);
+				if (randPosInt == 1) randPosInt = -1; //failing rarely
 				new GetPowerCommand(randPosInt, 82).execute();
 			}
 		}

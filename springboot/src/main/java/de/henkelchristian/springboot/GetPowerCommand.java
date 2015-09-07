@@ -11,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.netflix.hystrix.*;
+import com.netflix.hystrix.HystrixCommand;
 
 public class GetPowerCommand extends HystrixCommand<String> {
 
@@ -45,9 +46,9 @@ public class GetPowerCommand extends HystrixCommand<String> {
 			return "";
 		}
 
-		int responseCode = 0;
-
-		responseCode = con.getResponseCode();
+//		int responseCode = 0;
+//
+//		responseCode = con.getResponseCode();
 
 		// System.out.println("\nSending 'GET' request to URL : " + url);
 		// System.out.println("Response Code : " + responseCode);

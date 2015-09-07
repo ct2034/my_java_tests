@@ -10,36 +10,17 @@
 
 	<name>springboot</name>
 
-    <parent>
-    	<groupId>org.springframework.boot</groupId>
-    	<artifactId>spring-boot-starter-parent</artifactId>
-    	<version>1.2.5.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
-    </parent>
+	<parent>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-parent</artifactId>
+		<version>1.0.2.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    	<start-class>de.henkelchristian.hystrixtest.a.App</start-class>
+		<start-class>de.henkelchristian.hystrixtest.a.App</start-class>
 	</properties>
-
-	<repositories>
-		<repository>
-			<id>spring-releases</id>
-			<url>https://repo.spring.io/libs-release</url>
-		</repository>
-		<repository>
-			<id>oss-jfrog-artifactory</id>
-			<name>oss-jfrog-artifactory-releases</name>
-			<url>http://oss.jfrog.org/artifactory/oss-release-local</url>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-releases</id>
-			<url>https://repo.spring.io/libs-release</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<dependencies>
 		<dependency>
@@ -51,18 +32,32 @@
 		<dependency>
 			<groupId>com.netflix.hystrix</groupId>
 			<artifactId>hystrix-core</artifactId>
-			<version>1.4.14</version>
+			</dependency>
+
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-metrics-event-stream</artifactId>
+			</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-netflix-core</artifactId>
+			</dependency>
+
+		<dependency>
+			<groupId>com.netflix.hystrix</groupId>
+			<artifactId>hystrix-javanica</artifactId>
 		</dependency>
 
 		<!-- Add typical dependencies for a web application -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			</dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-			</dependency> 
+		</dependency>
 	</dependencies>
 
 	<build>

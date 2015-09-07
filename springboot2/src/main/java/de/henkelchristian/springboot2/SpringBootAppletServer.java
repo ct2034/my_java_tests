@@ -3,12 +3,17 @@ package de.henkelchristian.springboot2;
 import java.util.Hashtable;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @EnableAutoConfiguration
+@EnableHystrix
 public class SpringBootAppletServer {
 
 	@RequestMapping("/")
@@ -54,4 +59,6 @@ public class SpringBootAppletServer {
 			return e.toString();		
 		}
 	}
+
+	
 }
